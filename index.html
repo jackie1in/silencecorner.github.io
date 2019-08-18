@@ -270,7 +270,7 @@
                 
               
 
-              <time title="创建时间：2019-08-18 01:39:23 / 修改时间：11:41:35" itemprop="dateCreated datePublished" datetime="2019-08-18T01:39:23+08:00">2019-08-18</time>
+              <time title="创建时间：2019-08-18 01:39:23 / 修改时间：11:43:43" itemprop="dateCreated datePublished" datetime="2019-08-18T01:39:23+08:00">2019-08-18</time>
             </span>
           
             
@@ -332,7 +332,7 @@
 <li>cc for c++</li>
 <li>java</li>
 </ul>
-<p>以目前情况来讲，不需要多语言调用，即使出现多言调用的情况也可以，不影响正常调用，只是缺少验证而已，再不济也可以自己实现嘛！</p>
+<p>以目前情况来讲，不需要多语言调用，即使出现多语言调用的情况也可以，不影响正常调用，只是缺少验证而已，再不济也可以自己实现嘛！</p>
 <h4 id="修改proto"><a href="#修改proto" class="headerlink" title="修改proto"></a>修改proto</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import &quot;validate/validate.proto&quot;;</span><br><span class="line">message AddAuthorRequest&#123;</span><br><span class="line">    string name = 1 [(validate.rules).string = &#123;min_len: 5, max_len: 10&#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h4 id="修改build-gradle"><a href="#修改build-gradle" class="headerlink" title="修改build.gradle"></a>修改build.gradle</h4><h5 id="添加必要依赖"><a href="#添加必要依赖" class="headerlink" title="添加必要依赖"></a>添加必要依赖</h5><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">compile</span> <span class="string">"io.envoyproxy.protoc-gen-validate:pgv-java-stub:$&#123;pgvVersion&#125;"</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">"io.envoyproxy.protoc-gen-validate:pgv-java-grpc:$&#123;pgvVersion&#125;"</span></span><br></pre></td></tr></table></figure>
