@@ -65,7 +65,7 @@
 <meta property="og:site_name" content="一个闷骚的博客">
 <meta property="og:description" content="前言graphql和grpc的protobuf的schema都是一个描述性文件，只是双方的具体作用有差别而已。在Java中使用schema first的graphql-java-tools无疑是graphql在java语言的最佳入门实践，那么问题就来啦！protobuf和graphql各自都有自己的类型系统，graphql因为会序列化为json，那么就要遵从java bean的规范（序列化框架要求">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-18T03:37:43.505Z">
+<meta property="og:updated_time" content="2019-08-18T03:41:35.670Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="graphql grpc in java world(1)">
 <meta name="twitter:description" content="前言graphql和grpc的protobuf的schema都是一个描述性文件，只是双方的具体作用有差别而已。在Java中使用schema first的graphql-java-tools无疑是graphql在java语言的最佳入门实践，那么问题就来啦！protobuf和graphql各自都有自己的类型系统，graphql因为会序列化为json，那么就要遵从java bean的规范（序列化框架要求">
@@ -270,7 +270,7 @@
                 
               
 
-              <time title="创建时间：2019-08-18 01:39:23 / 修改时间：11:37:43" itemprop="dateCreated datePublished" datetime="2019-08-18T01:39:23+08:00">2019-08-18</time>
+              <time title="创建时间：2019-08-18 01:39:23 / 修改时间：11:41:35" itemprop="dateCreated datePublished" datetime="2019-08-18T01:39:23+08:00">2019-08-18</time>
             </span>
           
             
@@ -306,7 +306,7 @@
       
         <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>graphql和grpc的protobuf的schema都是一个描述性文件，只是双方的具体作用有差别而已。在Java中使用schema first的<code>graphql-java-tools</code>无疑是graphql在java语言的最佳入门实践，那么问题就来啦！protobuf和graphql各自都有自己的类型系统，graphql因为会序列化为json，那么就要遵从java bean的规范（序列化框架要求），protobuf使用的builder构造对象，没有默认的构造方法。</p>
 <h3 id="优化思路"><a href="#优化思路" class="headerlink" title="优化思路"></a>优化思路</h3><h4 id="nodejs"><a href="#nodejs" class="headerlink" title="nodejs"></a>nodejs</h4><p>因为在去年实践过一次，没有深入思考，写起来总感觉有一点别扭！所以最开始我的想法是改用nodejs来写去掉类型检查，也写过一个在<a href="https://github.com/silencecorner/graphql-grpc-exmaple/tree/master/graphql-api" target="_blank" rel="noopener">repo的graphql-api中</a></p>
-<h4 id="converter"><a href="#converter" class="headerlink" title="converter"></a>converter</h4><p>noejs写起来挺简单的，但是java才是主要开发语言，所以又按照去年的那个套路实现了一次，按照converter的思路使用了<a href="https://github.com/BAData/protobuf-converter" target="_blank" rel="noopener">protobuf-converter</a>类库,优化了一下但是还是有一些不适。</p>
+<h4 id="converter"><a href="#converter" class="headerlink" title="converter"></a>converter</h4><p>nodejs写起来挺简单的，但是java才是主要开发语言，所以又按照去年的那个套路实现了一次，按照converter的思路使用了<a href="https://github.com/BAData/protobuf-converter" target="_blank" rel="noopener">protobuf-converter</a>类库,优化了一下但是还是有一些不适。</p>
 <h4 id="jackson序列化框架"><a href="#jackson序列化框架" class="headerlink" title="jackson序列化框架"></a>jackson序列化框架</h4><p>今天我就在想能不能jackson和protobuf之间做桥接一下，google搜索了果然已经有实现的<a href="https://github.com/HubSpot/jackson-datatype-protobuf" target="_blank" rel="noopener">类库</a>，终于不用再写一遍java model啦！</p>
 <h5 id="删除代码"><a href="#删除代码" class="headerlink" title="删除代码"></a>删除代码</h5><p>删除之前的inputs、types package，改用protobuf生成的代码，这里桥接要注入<code>ProtobufModule</code>，又想能不能直接使用返回<code>ListenableFuture</code>实例，通过查找资料可以实现.</p>
 <h5 id="添加GraphqlToolConfiguration-java"><a href="#添加GraphqlToolConfiguration-java" class="headerlink" title="添加GraphqlToolConfiguration.java"></a>添加<code>GraphqlToolConfiguration.java</code></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class GraphqlToolConfiguration &#123;</span><br><span class="line">	@Bean</span><br><span class="line">	SchemaParserOptions options()&#123;</span><br><span class="line">		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json()</span><br><span class="line">			.modules(new ProtobufModule(), new Jdk8Module(), new KotlinModule(), new JavaTimeModule())</span><br><span class="line">			.build();</span><br><span class="line">		return SchemaParserOptions.newOptions()</span><br><span class="line">			.genericWrappers(SchemaParserOptions.GenericWrapper</span><br><span class="line">				.withTransformer(ListenableFuture.class,0,ListenableFuturesExtra::toCompletableFuture, type -&gt; type))</span><br><span class="line">			.objectMapperProvider(fieldDefinition -&gt; objectMapper )</span><br><span class="line">			.useDefaultGenericWrappers(true)</span><br><span class="line">			.build();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -649,6 +649,24 @@
 
 
 
+    <!-- calendar widget -->
+
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/calendar.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/languages.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        $('#CloudCalendar').aCalendar('zh-CN',
+            $.extend(
+                '', {
+                    single:true,
+                    root:'/calendar/'
+                }
+            )
+        );
+    });
+    </script>
+
+
     
 <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
@@ -668,24 +686,6 @@
   });
   gitalk.render('gitalk-container');
 </script>
-
-    <!-- calendar widget -->
-
-    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/calendar.min.js"></script>
-    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/languages.min.js"></script>
-    <script type="text/javascript">
-    $(function() {
-        $('#CloudCalendar').aCalendar('zh-CN',
-            $.extend(
-                '', {
-                    single:true,
-                    root:'/calendar/'
-                }
-            )
-        );
-    });
-    </script>
-
 
 
 </body>
