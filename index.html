@@ -270,7 +270,7 @@
                 
               
 
-              <time title="创建时间：2019-08-18 01:39:23 / 修改时间：11:33:02" itemprop="dateCreated datePublished" datetime="2019-08-18T01:39:23+08:00">2019-08-18</time>
+              <time title="创建时间：2019-08-18 01:39:23 / 修改时间：11:34:41" itemprop="dateCreated datePublished" datetime="2019-08-18T01:39:23+08:00">2019-08-18</time>
             </span>
           
             
@@ -305,7 +305,7 @@
 
       
           
-            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>graphql和grpc的protobuf的schema都是一个描述性文件，描述我们要做的是，只是双方的具体作用有差别而已。在Java中使用schema first的<code>graphql-java-tools</code>无疑是graphql在java语言的最佳入门实践，那么问题就来啦！protobuf和graphql各自都有自己的类型系统，graphql因为会序列化为json，那么就要遵从java bean的规范（序列化框架要求），protobuf使用的builder构造对象，没有默认的构造方法。</p>
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>graphql和grpc的protobuf的schema都是一个描述性文件，只是双方的具体作用有差别而已。在Java中使用schema first的<code>graphql-java-tools</code>无疑是graphql在java语言的最佳入门实践，那么问题就来啦！protobuf和graphql各自都有自己的类型系统，graphql因为会序列化为json，那么就要遵从java bean的规范（序列化框架要求），protobuf使用的builder构造对象，没有默认的构造方法。</p>
 <h3 id="优化思路"><a href="#优化思路" class="headerlink" title="优化思路"></a>优化思路</h3><h4 id="nodejs"><a href="#nodejs" class="headerlink" title="nodejs"></a>nodejs</h4><p>因为在去年实践过一次，没有深入思考，写起来总感觉有一点别扭！所以最开始我的想法是改用nodejs来写去掉类型检查，也写过一个在<a href="https://github.com/silencecorner/graphql-grpc-exmaple/tree/master/graphql-api" target="_blank" rel="noopener">repo的graphql-api中</a></p>
 <h4 id="converter"><a href="#converter" class="headerlink" title="converter"></a>converter</h4><p>noejs写起来挺简单的，但是java才是主要开发语言，所以又按照去年的那个套路实现了一次，按照converter的思路使用了<a href="https://github.com/BAData/protobuf-converter" target="_blank" rel="noopener">protobuf-converter</a>类库,优化了一下但是还是有一些不适。</p>
 <h4 id="jackson序列化框架"><a href="#jackson序列化框架" class="headerlink" title="jackson序列化框架"></a>jackson序列化框架</h4><p>今天我就在想能不能jackson和protobuf之间做桥接一下，google搜索了果然已经有实现的<a href="https://github.com/HubSpot/jackson-datatype-protobuf" target="_blank" rel="noopener">类库</a>，终于不用再写一遍java model啦！</p>
