@@ -270,7 +270,7 @@
                 
               
 
-              <time title="创建时间：2019-08-19 17:07:45 / 修改时间：17:22:32" itemprop="dateCreated datePublished" datetime="2019-08-19T17:07:45+08:00">2019-08-19</time>
+              <time title="创建时间：2019-08-19 17:07:45 / 修改时间：17:24:53" itemprop="dateCreated datePublished" datetime="2019-08-19T17:07:45+08:00">2019-08-19</time>
             </span>
           
             
@@ -330,7 +330,7 @@
 </blockquote>
 </li>
 </ul>
-<p>那么在什么场景下去使用返回<code>Optional</code>的<code>findById</code>，什么时候使用返回懒加载对象的<code>getOne</code>呢？从含义上来讲，<code>getOne</code>表示数据一定存在的数据，可以在udpate的时候使用，而<code>findById</code> 会立刻返回结果，可能存在也可能不存在。另外，<code>getOne</code>因为是返回的是一个引用，还没有具体执行，给一种异步的感觉，可以在响应式web程序中使用返回<code>CompletableFuture</code>等封装对象，当也得复核数据必须在数据库中存在这个条件。</p>
+<p>那么在什么场景下去使用返回<code>Optional</code>的<code>findById</code>，什么时候使用返回懒加载对象的<code>getOne</code>呢？从含义上来讲，<code>getOne</code>表示数据一定存在，可以在udpate的时候使用，而<code>findById</code> 会立刻返回结果，可能存在也可能不存在。另外，<code>getOne</code>因为是返回的是一个引用，还没有具体执行，给一种异步的感觉，可以在响应式web程序中使用返回<code>CompletableFuture</code>等封装对象，当也得符合数据必须在数据库中存在这个条件。</p>
 <h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><p>懒加载需要将相应的东西保存到session，我们能控制就是加一个事务注解在方法上<code>@Transactional</code>声明这个方法没有执行完之前session不关闭。因为使用的spring boot，加一个配置：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spring.jpa.properties.hibernate.enable_lazy_load_no_trans=true</span><br></pre></td></tr></table></figure>
 
