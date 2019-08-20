@@ -81,6 +81,15 @@
   
 
 
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a5f9f1e2d8963b5a57b96bcf6b4891f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
@@ -303,6 +312,16 @@
             </span>
           
 
+          
+            <span id="/2019/08/19/org-hibernate-LazyInitializationException-could-not-initialize-proxy-xxxx-no/" class="post-meta-item leancloud_visitors" data-flag-title="org.hibernate.LazyInitializationException: could not initialize proxy xxxx no Session">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
           <br>
 
         </div>
@@ -447,6 +466,16 @@
             </span>
           
 
+          
+            <span id="/2019/08/18/graphql-grpc-in-java-world-1/" class="post-meta-item leancloud_visitors" data-flag-title="graphql grpc in java world(1)">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
           <br>
 
         </div>
@@ -615,6 +644,16 @@
             </span>
           
 
+          
+            <span id="/2019/08/17/nginx部署静态vue项目时的注意事项/" class="post-meta-item leancloud_visitors" data-flag-title="nginx部署静态vue项目时的注意事项">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
           <br>
 
         </div>
@@ -753,6 +792,16 @@
             </span>
           
 
+          
+            <span id="/2019/08/16/centeros-docker安装及简单应用/" class="post-meta-item leancloud_visitors" data-flag-title="centeros docker安装及简单应用">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
           <br>
 
         </div>
@@ -1005,6 +1054,10 @@
       </div>
 
     
+  <div class="addthis_inline_share_toolbox">
+  <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d5bb6448cae21ec" async="async"></script>
+</div>
+
 
   </div>
 
@@ -1034,6 +1087,15 @@
 
 
   
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
 
 
 
@@ -1045,31 +1107,93 @@
 
 
 
+  
+  <script>
+    function showTime(Counter) {
+      var entries = [];
+      var $visitors = $('.leancloud_visitors');
 
+      $visitors.each(function() {
+        entries.push( $(this).attr('id').trim() );
+      });
 
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url: { '$in': entries } }) })
+        .done(function({ results }) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
 
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
 
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.url;
+            var time = item.time;
+            var element = document.getElementById(url);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for (var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if (countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log(`LeanCloud Counter Error: ${responseJSON.code} ${responseJSON.error}`);
+        });
+    }
     
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'TpYQNBoMwgc8JVqMGxqxXOg5-MdYXbMMI')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': 'TpYQNBoMwgc8JVqMGxqxXOg5-MdYXbMMI',
+                'X-LC-Key': 'wc9oRMmIfBPdqaWv9XXfEniG',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+            if ($('.post-title-link').length >= 1) {
+              showTime(Counter);
+            }
+          
+        });
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <!-- calendar widget -->
 
@@ -1088,6 +1212,8 @@
     });
     </script>
 
+
+    
 
 
 </body>
