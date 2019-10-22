@@ -7,14 +7,14 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>标签: docker - 一个闷骚的博客</title>
+<title>归档: 2019/9 - 一个闷骚的博客</title>
 
 
     <meta name="description" content="一个闷骚的博客">
 <meta name="keywords" content="闷骚的博客,silencecorner,silence角落,java,分布式">
 <meta property="og:type" content="website">
 <meta property="og:title" content="一个闷骚的博客">
-<meta property="og:url" content="https://silencecorner.github.io/tags/docker/index.html">
+<meta property="og:url" content="https://silencecorner.github.io/archives/2019/09/index.html">
 <meta property="og:site_name" content="一个闷骚的博客">
 <meta property="og:description" content="一个闷骚的博客">
 <meta property="og:locale" content="zh-CN">
@@ -129,71 +129,37 @@ var _hmt = _hmt || [];
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+
+<div class="card widget">
     <div class="card-content">
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-            <li><a href="/tags">标签</a></li>
-            <li class="is-active"><a href="#" aria-current="page">docker</a></li>
-        </ul>
-        </nav>
+        <h3 class="tag is-link">
+        九月 2019
+        </h3>
+        <div class="timeline">
+        
+            <article class="media">
+                
+                <div class="media-content">
+                    <div class="content">
+                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-09-22T15:07:41.894Z">2019-09-22</time>
+                        <a href="/2019/09/22/订单设计/" class="title has-link-black-ter is-size-6 has-text-weight-normal">订单设计</a>
+                        <div class="level article-meta is-mobile">
+                            <div class="level-left">
+                                
+                                <div class="level-item is-size-7 is-uppercase">
+                                <a class="has-link-grey -link" href="/categories/架构设计/">架构设计</a>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        
+        </div>
     </div>
 </div>
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-08-16T04:52:02.000Z">2019-08-16</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/docker/">docker</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/docker/CI-CD/">CI/CD</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    5 分钟 读完 (大约 824 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/08/16/centeros-docker安装及简单应用/">centeros docker安装及简单应用</a>
-            
-        </h1>
-        <div class="content">
-            <h4 id="docker安裝"><a href="#docker安裝" class="headerlink" title="docker安裝"></a>docker安裝</h4><h5 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h5><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo yum remove docker \</span><br><span class="line">                  docker-client \</span><br><span class="line">                  docker-client-latest \</span><br><span class="line">                  docker-common \</span><br><span class="line">                  docker-latest \</span><br><span class="line">                  docker-latest-logrotate \</span><br><span class="line">                  docker-logrotate \</span><br><span class="line">                  docker-selinux \</span><br><span class="line">                  docker-engine-selinux \</span><br><span class="line">                  docker-engine</span><br></pre></td></tr></table></figure>
-
-<h5 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h5><p>默认安装stable版的，安装edge或者test版本的请自行查阅<a href="https://docs.docker.com/install/linux/docker-ce/centos/#install-docker-ce-1" target="_blank" rel="noopener">官方文档</a></p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#安装配置管理工具</span><br><span class="line">sudo yum install -y yum-utils \</span><br><span class="line">  device-mapper-persistent-data \</span><br><span class="line">  lvm2</span><br><span class="line"> sudo yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line"> sudo yum install -y docker-ce</span><br></pre></td></tr></table></figure>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/08/16/centeros-docker安装及简单应用/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
 
 
 </div>

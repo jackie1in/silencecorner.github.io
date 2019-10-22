@@ -7,14 +7,14 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>标签: docker - 一个闷骚的博客</title>
+<title>标签: 架构设计 - 一个闷骚的博客</title>
 
 
     <meta name="description" content="一个闷骚的博客">
 <meta name="keywords" content="闷骚的博客,silencecorner,silence角落,java,分布式">
 <meta property="og:type" content="website">
 <meta property="og:title" content="一个闷骚的博客">
-<meta property="og:url" content="https://silencecorner.github.io/tags/docker/index.html">
+<meta property="og:url" content="https://silencecorner.github.io/tags/架构设计/index.html">
 <meta property="og:site_name" content="一个闷骚的博客">
 <meta property="og:description" content="一个闷骚的博客">
 <meta property="og:locale" content="zh-CN">
@@ -134,7 +134,7 @@ var _hmt = _hmt || [];
         <nav class="breadcrumb" aria-label="breadcrumbs">
         <ul>
             <li><a href="/tags">标签</a></li>
-            <li class="is-active"><a href="#" aria-current="page">docker</a></li>
+            <li class="is-active"><a href="#" aria-current="page">架构设计</a></li>
         </ul>
         </nav>
     </div>
@@ -147,17 +147,17 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-08-16T04:52:02.000Z">2019-08-16</time>
+                <time class="level-item has-text-grey" datetime="2019-09-22T15:07:41.894Z">2019-09-22</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/docker/">docker</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/docker/CI-CD/">CI/CD</a>
+                <a class="has-link-grey -link" href="/categories/架构设计/">架构设计</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    5 分钟 读完 (大约 824 个字)
+                    3 分钟 读完 (大约 504 个字)
                 </span>
                 
                 
@@ -166,24 +166,34 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/08/16/centeros-docker安装及简单应用/">centeros docker安装及简单应用</a>
+                <a class="has-link-black-ter" href="/2019/09/22/订单设计/">订单设计</a>
             
         </h1>
         <div class="content">
-            <h4 id="docker安裝"><a href="#docker安裝" class="headerlink" title="docker安裝"></a>docker安裝</h4><h5 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h5><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo yum remove docker \</span><br><span class="line">                  docker-client \</span><br><span class="line">                  docker-client-latest \</span><br><span class="line">                  docker-common \</span><br><span class="line">                  docker-latest \</span><br><span class="line">                  docker-latest-logrotate \</span><br><span class="line">                  docker-logrotate \</span><br><span class="line">                  docker-selinux \</span><br><span class="line">                  docker-engine-selinux \</span><br><span class="line">                  docker-engine</span><br></pre></td></tr></table></figure>
+            <h2 id="账单-订单定义"><a href="#账单-订单定义" class="headerlink" title="账单/订单定义"></a>账单/订单定义</h2><p>在阅读<a href="https://www.jianshu.com/p/bf0c82053167" target="_blank" rel="noopener">账单/订单的区别</a>之后，我理解为账单仅此是管帐是以money为中心，记录账务往来。主要有三种来源：</p>
+<ul>
+<li>服务（虚，服务）</li>
+<li>产品（实，购买）</li>
+<li>资源（实，租赁）</li>
+</ul>
+<p>上面的是<code>虚</code>只是服务可能是虚拟的也可以上门的家政服务或者是理发之类的，不存在实际的交易物品，而<code>实</code>存在实际的交易物品的。</p>
+<p>账单是商品为中心的，主要管理Order2Payment的过程，包含了配送的过程，所以我理解下单到支付、配送，支付和配送可能存在也可能不存在。具体情况可以举例子：</p>
+<ul>
+<li>支付不存在配送存在（赠送产品或非虚拟服务）</li>
+<li>支付存在配送不存在 （虚拟物品，比如游戏道具）</li>
+<li>支付存在配送存在 （实际交易物品）</li>
+<li>支付不存在配送不存在 （赠送虚拟物品）</li>
+</ul>
+<p>有两个例子比较特殊，但其实也是存在的。在账单阶段获取购物项、设置公共配送地址（每个账单可以单独修改），然后在一定时间内（商品价格或者优惠等变化影响到支付金额）生成草稿订单。在生成草稿订单时计算预计服务时间、预计配送到达时间等，草稿订单跟账单一样短时间未支付失效，原因有以下几点：</p>
+<ul>
+<li>价格和优惠规则变化影响支付结果</li>
+<li>库存，正常的电商应该是先减库存</li>
+<li>支付平台预订单未支付超时限制</li>
+</ul>
+<h2 id="账单-订单时序图"><a href="#账单-订单时序图" class="headerlink" title="账单/订单时序图"></a>账单/订单时序图</h2><p><a href="https://community.shopify.com/c/Shopify-APIs-SDKs/Difference-between-Webhook-quot-checkout-create-quot-quot-orders/m-p/484682#M31120" target="_blank" rel="noopener">账单/订单的创建</a></p>
 
-<h5 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h5><p>默认安装stable版的，安装edge或者test版本的请自行查阅<a href="https://docs.docker.com/install/linux/docker-ce/centos/#install-docker-ce-1" target="_blank" rel="noopener">官方文档</a></p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#安装配置管理工具</span><br><span class="line">sudo yum install -y yum-utils \</span><br><span class="line">  device-mapper-persistent-data \</span><br><span class="line">  lvm2</span><br><span class="line"> sudo yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line"> sudo yum install -y docker-ce</span><br></pre></td></tr></table></figure>
         </div>
         
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/08/16/centeros-docker安装及简单应用/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
         
         
     </div>
