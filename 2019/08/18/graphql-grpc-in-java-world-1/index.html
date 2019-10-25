@@ -277,19 +277,20 @@ var _hmt = _hmt || [];
         <h3 class="title is-5 has-text-weight-normal">评论</h3>
         
 <div id="comment-container"></div>
-<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.4.1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.4.1/dist/gitalk.min.js"></script>
 <script>
-	var gitment = new Gitment({
-		id: '6ccf04dfe0f088dec8aac7ed6ed6bbbc',
-		owner: 'silencecorner',
-		repo: 'silencecorner.github.io',
-		oauth: {
-			client_id: 'c11c2cbf3e1c2d0d9f9d',
-			client_secret: '27face6fb1f58b5ae5984d3d27fec77966d9f794',
-		},
-	})
-	gitment.render('comment-container')
+    var gitalk = new Gitalk({
+        clientID: 'c11c2cbf3e1c2d0d9f9d',
+        clientSecret: '27face6fb1f58b5ae5984d3d27fec77966d9f794',
+        id: '6ccf04dfe0f088dec8aac7ed6ed6bbbc',
+        repo: 'silencecorner.github.io',
+        owner: 'silencecorner',
+        admin: "silencecorner",
+        createIssueManually: false,
+        distractionFreeMode: false
+    })
+    gitalk.render('comment-container')
 </script>
 
     </div>
@@ -338,7 +339,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        5
+                        6
                     </p>
                 </div>
             </div>
@@ -467,6 +468,25 @@ var _hmt = _hmt || [];
         
         <article class="media">
             
+            <a href="/2019/10/24/grpc与graphql最佳实践/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="grpc与graphql最佳实践">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-24T08:28:29.000Z">2019-10-24</time></div>
+                    <a href="/2019/10/24/grpc与graphql最佳实践/" class="title has-link-black-ter is-size-6 has-text-weight-normal">grpc与graphql最佳实践</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/09/22/订单设计/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="订单设计">
@@ -541,25 +561,6 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/08/16/centeros-docker安装及简单应用/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="centeros docker安装及简单应用">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-16T04:52:02.000Z">2019-08-16</time></div>
-                    <a href="/2019/08/16/centeros-docker安装及简单应用/" class="title has-link-black-ter is-size-6 has-text-weight-normal">centeros docker安装及简单应用</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/docker/">docker</a> / <a class="has-link-grey -link" href="/categories/docker/CI-CD/">CI/CD</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
         
@@ -570,6 +571,17 @@ var _hmt = _hmt || [];
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/09/">
@@ -686,6 +698,25 @@ var _hmt = _hmt || [];
         
         <article class="media">
             
+            <a href="/2019/10/24/grpc与graphql最佳实践/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="grpc与graphql最佳实践">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-24T08:28:29.000Z">2019-10-24</time></div>
+                    <a href="/2019/10/24/grpc与graphql最佳实践/" class="title has-link-black-ter is-size-6 has-text-weight-normal">grpc与graphql最佳实践</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/09/22/订单设计/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="订单设计">
@@ -760,25 +791,6 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/08/16/centeros-docker安装及简单应用/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="centeros docker安装及简单应用">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-16T04:52:02.000Z">2019-08-16</time></div>
-                    <a href="/2019/08/16/centeros-docker安装及简单应用/" class="title has-link-black-ter is-size-6 has-text-weight-normal">centeros docker安装及简单应用</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/docker/">docker</a> / <a class="has-link-grey -link" href="/categories/docker/CI-CD/">CI/CD</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
     
@@ -789,6 +801,17 @@ var _hmt = _hmt || [];
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/09/">
