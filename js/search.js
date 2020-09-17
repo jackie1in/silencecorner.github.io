@@ -1,1 +1,85 @@
-!function(){var e,t,i,r=document.getElementById("search-key"),n=(document.getElementById("search-local"),document.getElementById("search-form"),document.getElementById("result-mask")),o=document.getElementById("result-wrap"),c=document.getElementById("search-result"),s=document.getElementById("search-tpl").innerHTML;function u(e,t){return e.className.match(new RegExp("(\\s|^)"+t+"(\\s|$)"))}function a(e,t){u(e,t)||(e.className+=" "+t)}function d(e,t){if(u(e,t)){var n=new RegExp("(\\s|^)"+t+"(\\s|$)");e.className=e.className.replace(n," ")}}function l(e,t){return t.lastIndex=0,t.test(e)}function m(){d(o,"hide"),d(n,"hide")}function f(){a(o,"hide"),a(n,"hide")}function h(e){var t="";e.length?t=e.map(function(e){return function(e,n){return e.replace(/\{\w+\}/g,function(e){var t=e.replace(/\{|\}/g,"");return n[t]||""})}(s,{title:p(e.title,"title"),path:e.path,content:p(e.text,"content")})}).join(""):""==r.value?f():t='<div class="tips"><p>没有找到相关结果!</p></div>',c.innerHTML=t}function p(e,t){var n=r.value,i=e.indexOf(n),o=e.replace(n,"<b>"+n+"</b>");return"title"==t?o:"content"==t&&0<i?o.substr(i-15,45):void 0}function g(e){var t=this.value.trim();if(t){var n=new RegExp(t.replace(/[ ]/g,"|"),"gmi");!function(t){if(i)t(i);else{var e=new XMLHttpRequest;e.open("GET",document.getElementsByTagName("meta").root.content+"content.json",!0),e.onload=function(){if(200<=this.status&&this.status<300){var e=JSON.parse(this.response||this.responseText);i=e instanceof Array?e:e.posts,t(i)}else console.error(this.statusText)},e.onerror=function(){console.error(this.statusText)},e.send()}}(function(e){h(e.filter(function(e){return function(e,t){return l(e.title,t)||l(e.text,t)}(e,n)}))}),e.preventDefault(),m(),r.onfocus=function(){m()}}else h("")}window.innerWidth?e=parseInt(window.innerWidth):document.body&&document.body.clientWidth&&(e=parseInt(document.body.clientWidth)),window.innerHeight?t=parseInt(window.innerHeight):document.body&&document.body.clientHeight&&(t=parseInt(document.body.clientHeight)),n.style.width=e+"px",n.style.height=t+"px",r.onfocus=function(){r.addEventListener("input",g)},n.onclick=function(){f()}}();
+var searchFunc = function (path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+            // get the contents from search data
+            var datas = $("entry", xmlResponse).map(function () {
+                return {
+                    title: $("title", this).text(),
+                    content: $("content", this).text(),
+                    url: $("url", this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function () {
+                var str = '<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length <= 0) {
+                    return;
+                }
+                // perform local searching
+                datas.forEach(function (data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if (data_title != '' && data_content != '') {
+                        keywords.forEach(function (keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if (index_title < 0 && index_content < 0) {
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g, "");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if (start < 0) {
+                                start = 0;
+                            }
+                            if (start == 0) {
+                                end = 100;
+                            }
+                            if (end > content.length) {
+                                end = content.length;
+                            }
+                            var match_content = content.substr(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function (keyword) {
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content + "...</p>"
+                        }
+                        str += "</li>";
+                    }
+                });
+                str += "</ul>";
+                $resultContent.innerHTML = str;
+            });
+        }
+    });
+}
