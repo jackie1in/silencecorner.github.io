@@ -4,7 +4,7 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="centeros docker安装及简单应用, silencecorner,silence角落,java,分布式">
+    <meta name="keywords" content="spring boot使用systemd部署, silencecorner,silence角落,java,分布式">
     <meta name="description" content="人之所以愤怒,源于对自身的无能">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>centeros docker安装及简单应用 | silence角落</title>
+    <title>spring boot使用systemd部署 | silence角落</title>
     <link rel="icon" type="image/jpeg" href="/medias/avatar.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/gallery/thumbnails/docker.png')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/gallery/thumbnails/spring-boot.png')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">centeros docker安装及简单应用</h1>
+                    <h1 class="description center-align post-title">spring boot使用systemd部署</h1>
                 </div>
             </div>
         </div>
@@ -430,12 +430,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/docker/">
-                                <span class="chip bg-color">docker</span>
-                            </a>
-                        
-                            <a href="/tags/jenkins/">
-                                <span class="chip bg-color">jenkins</span>
+                            <a href="/tags/日常运维/">
+                                <span class="chip bg-color">日常运维</span>
                             </a>
                         
                     </div>
@@ -446,12 +442,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/docker/" class="post-category">
-                                docker
-                            </a>
-                        
-                            <a href="/categories/docker/CI-CD/" class="post-category">
-                                CI/CD
+                            <a href="/categories/运维/" class="post-category">
+                                运维
                             </a>
                         
                     </div>
@@ -463,7 +455,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-08-16
+                    2020-09-18
                 </div>
                 
 
@@ -477,7 +469,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    928
+                    52
                 </div>
                 
 
@@ -489,111 +481,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h4 id="docker安裝"><a href="#docker安裝" class="headerlink" title="docker安裝"></a>docker安裝</h4><a id="more"></a>
-<h5 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h5><pre><code>sudo yum remove docker \
-                  docker-client \
-                  docker-client-latest \
-                  docker-common \
-                  docker-latest \
-                  docker-latest-logrotate \
-                  docker-logrotate \
-                  docker-selinux \
-                  docker-engine-selinux \
-                  docker-engine</code></pre><h5 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h5><p>默认安装stable版的，安装edge或者test版本的请自行查阅<a href="https://docs.docker.com/install/linux/docker-ce/centos/#install-docker-ce-1" target="_blank" rel="noopener">官方文档</a></p>
-<pre><code>#安装配置管理工具
-sudo yum install -y yum-utils \
-  device-mapper-persistent-data \
-  lvm2
- sudo yum-config-manager \
-    --add-repo \
-    https://download.docker.com/linux/centos/docker-ce.repo
- sudo yum install -y docker-ce</code></pre><h5 id="安装指定版本"><a href="#安装指定版本" class="headerlink" title="安装指定版本"></a>安装指定版本</h5><pre><code>yum install https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-selinux-17.03.0.ce-1.el7.centos.noarch.rpm
-yum install -y docker-ce-17.03.0.ce-1.el7.centos.x86_64</code></pre><h5 id="docker-加速配置（centos7"><a href="#docker-加速配置（centos7" class="headerlink" title="docker 加速配置（centos7)"></a>docker 加速配置（centos7)</h5><pre><code>sudo mkdir -p /etc/docker
-sudo tee /etc/docker/daemon.json &lt;&lt;-'EOF'
-{
-  "registry-mirrors": ["https://id7d29lp.mirror.aliyuncs.com"],
-  "insecure-registries": ["192.168.1.38:5000"]
-}
-EOF
-sudo systemctl daemon-reload
-sudo systemctl restart docker</code></pre><h6 id="配置非root用户使用docker"><a href="#配置非root用户使用docker" class="headerlink" title="配置非root用户使用docker"></a>配置非root用户使用docker</h6><pre><code>#bamboo 替换成你的用户名
-sudo setfacl -m user:bamboo:rw /var/run/docker.sock
-#还有一种方式就是在加入docker的group
-</code></pre><h5 id="login"><a href="#login" class="headerlink" title="login"></a>login</h5><pre class=" language-bash"><code class="language-bash">docker login
-<span class="token comment" spellcheck="true">#你的docker hub的用户名密码</span></code></pre>
-<p>用户名为参数登录</p>
-<pre class=" language-bash"><code class="language-bash">docker login --username<span class="token operator">=</span>gedit registry.cn-hangzhou.aliyuncs.com
-<span class="token comment" spellcheck="true"># 你的ali dockerhub的密码</span></code></pre>
-<h4 id="docker-machine"><a href="#docker-machine" class="headerlink" title="docker machine"></a>docker machine</h4><pre><code>docker-machine create -d generic --generic-ip-address=192.168.1.67 --generic-ssh-user=administrator host67</code></pre><h4 id="swarm集群"><a href="#swarm集群" class="headerlink" title="swarm集群"></a>swarm集群</h4><h5 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h5><pre><code>sudo tee /etc/sysconfig/docker &lt;&lt;-'EOF'
-OPTIONS='-g /cutome-path/docker -H tcp://0.0.0.0:2375'
-EOF</code></pre><h5 id="安装swarm"><a href="#安装swarm" class="headerlink" title="安装swarm"></a>安装swarm</h5><pre><code>docker pull swarm</code></pre><h5 id="生成token"><a href="#生成token" class="headerlink" title="生成token"></a>生成token</h5><pre><code>docker -H 192.168.1.38:8888 ps -a</code></pre><h5 id="设置管理节点"><a href="#设置管理节点" class="headerlink" title="设置管理节点"></a>设置管理节点</h5><p>在节点里面管理设置</p>
-<pre><code> docker swarm init --advertise-addr 192.168.1.38</code></pre><h5 id="加入集群"><a href="#加入集群" class="headerlink" title="加入集群"></a>加入集群</h5><pre><code>docker swarm join \
-    --token SWMTKN-1-2hjlzufhptigxwvclhbn2b96rvn2ndl8wy8dqzn8otvjcibydp-7hppr5l9agyyp41wght5gpeo6 \
-    192.168.1.41:2377</code></pre><h5 id="查看集群节点"><a href="#查看集群节点" class="headerlink" title="查看集群节点"></a>查看集群节点</h5><pre><code>docker node ls</code></pre><h5 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h5><pre><code>docker service create --name guoi-micro-shopie-shop -p 9039:9002 -p 8940:8902 --env JAVA_OPTS="-Xmx512m" guoi/guoi-micro-shopie-shop --constraint 'node.hostname==istio-master'
-</code></pre><h4 id="配置本地仓库"><a href="#配置本地仓库" class="headerlink" title="配置本地仓库"></a>配置本地仓库</h4><p><a href="https://blog.csdn.net/ronnyjiang/article/details/71189392" target="_blank" rel="noopener">原文链接</a></p>
-<pre><code>docker run -d -p 5000:5000 -v /home/docker_registry:/var/lib/registry --restart=always --name registry registry:latest  </code></pre><pre><code># insecure-registries设置本地仓库位置
-cat /etc/docker/daemon.json 
-{
-  "registry-mirrors": ["https://7xwv2psl.mirror.aliyuncs.com"],
-  "insecure-registries": ["192.168.1.250:5000"]
-}</code></pre><p>查看仓库位置</p>
-<pre><code>curl -XGET http://192.168.1.250:5000/v2/_catalog
-curl -XGET http://192.168.1.250:5000/v2/guoi/guoi-micro-shopie-catalog/tags/list</code></pre><h4 id="jenkins-jar运行"><a href="#jenkins-jar运行" class="headerlink" title="jenkins jar运行"></a>jenkins jar运行</h4><pre><code>cd github/gedit_cloud_user_test/
-pid=`ps -ef | grep gedit-cloud-user-0.0.1-SNAPSHOT.jar | grep -v grep | awk '{print $2}'`
-if [ -n "$pid" ]
-then
-#!kill -9 强制终止
-   echo "kill -9 的pid:" $pid
-   kill -9 $pid
-fi
-ls
-gradle build -x test -x docker
-BUILD_ID=DONTKILLME #jenkins环境变量
-nohup java -Dspring.profiles.active=test -jar -Xmx500m build/libs/gedit-cloud-user-0.0.1-SNAPSHOT.jar &gt;&gt;/root/log/gedit_user/user.log 2&gt;&amp;1&amp;</code></pre><h4 id="docker-mysql"><a href="#docker-mysql" class="headerlink" title="docker mysql"></a>docker mysql</h4><pre><code>#dump data
-mysql -uroot gedit_store&gt;sqlbackup/gedit_store.docker.sql
-mysql -uroot gedit_user&gt;sqlbackup/gedit_user.docker.sql
-#close mysql
-systemctl mysqld stop
-#install docker mysql
-docker pull mysql 
-#run instance
-docker run -itd -p 3306:3306 mysql bash
-#login tty
-container=$(docker ps|grep mysql|awk '{print $1}')
-docker exec -it $container bash
-#create databases
-mysql -uroot
-create database gedit_store character set utf8mb4;
-create database gedit_user character set utf8mb4;
-exit
-#exit tty
-exit
-#get mysql ip
-mysqlIp=$(docker ps|grep mysql|awk '{print $1}'|xargs docker inspect| grep IPAddress|sed -n '2p'|awk '{print $2}'|sed -e 's/\"//g'|sed -e 's/\,//g')
-echo "mysql ip:$mysqlIp"
-#backup data,need dump mysql data
-mysql -uroot -h$mysqlIp gedit_store&lt;sqlbackup/gedit_store.docker.sql
-mysql -uroot -h$mysqlIp gedit_user&lt;sqlbackup/gedit_user.docker.sql</code></pre><h5 id="删除none镜像"><a href="#删除none镜像" class="headerlink" title="删除none镜像"></a>删除none镜像</h5><pre><code>#delete none images
-docker rmi -f $(docker images | grep '^&lt;none&gt;' | awk '{print $3}')</code></pre><h5 id="jenkins-docker"><a href="#jenkins-docker" class="headerlink" title="jenkins docker"></a>jenkins docker</h5><pre><code>BUILD_ID=DONTKILLME
-gradle build -x test --refresh-dependencies
-sed 's/-Dspring.profiles.active=test/-Dspring.profiles.active=test/g' Dockerfile
-containerId=$(docker ps -a|grep 'conanchen/gedit-cloud-storesearch'|awk '{print $1}')
-if [ $containerId ]
-then
-    echo "stop container id $containerId"
-    upContainerId=$(docker ps -a|grep 'conanchen/gedit-cloud-storesearch'|grep 'Up'|awk '{print $1}')
-    if [ $upContainerId ]
-    then
-         docker kill $upContainerId
-    fi
-    docker rm -f $containerId
-    docker rmi -f $(docker images|grep 'conanchen/gedit-cloud-storesearch'|awk '{print $3}')
-fi
-gradle build docker -x test -x dockerPush
-docker run --name gedit_storesearch -d -p 9091:9090 -p 9985:9985 --env JAVA_OPTS="-Xmx512m" conanchen/gedit-cloud-storesearch
-sleep 30
-docker ps -a|grep 'conanchen/gedit-cloud-storesearch'|awk '{print $1}'|xargs docker logs</code></pre><h5 id="elasticsearch"><a href="#elasticsearch" class="headerlink" title="elasticsearch"></a>elasticsearch</h5><pre><code>docker pull docker.elastic.co/elasticsearch/elasticsearch:6.1.1
-docker run -d -it -p 19200:9200 -p 19300:9300 -e "discovery.type=single-node" -e ES_JAVA_OPTS="-Xms256m -Xmx512m" docker.elastic.co/elasticsearch/elasticsearch:6.1.1</code></pre><script>
+                <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
             if (!el.dataset.src) { return; }
@@ -636,7 +524,7 @@ docker run -d -it -p 19200:9200 -p 19300:9300 -e "discovery.type=single-node" -e
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://blog.silencecorner.cn/2019/08/16/centeros-docker-an-zhuang-ji-jian-dan-ying-yong/">http://blog.silencecorner.cn/2019/08/16/centeros-docker-an-zhuang-ji-jian-dan-ying-yong/</a>
+                    <a href="http://blog.silencecorner.cn/2020/09/18/spring-boot-shi-yong-systemd-bu-shu/">http://blog.silencecorner.cn/2020/09/18/spring-boot-shi-yong-systemd-bu-shu/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -674,12 +562,8 @@ docker run -d -it -p 19200:9200 -p 19300:9300 -e "discovery.type=single-node" -e
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/docker/">
-                                    <span class="chip bg-color">docker</span>
-                                </a>
-                            
-                                <a href="/tags/jenkins/">
-                                    <span class="chip bg-color">jenkins</span>
+                                <a href="/tags/日常运维/">
+                                    <span class="chip bg-color">日常运维</span>
                                 </a>
                             
                         </div>
@@ -850,7 +734,7 @@ docker run -d -it -p 19200:9200 -p 19300:9300 -e "discovery.type=single-node" -e
         repo: 'silencecorner.github.io',
         owner: 'silencecorner',
         admin: "silencecorner",
-        id: '2019-08-16T12-52-02',
+        id: '2020-09-18T09-48-34',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -874,94 +758,35 @@ docker run -d -it -p 19200:9200 -p 19300:9300 -e "discovery.type=single-node" -e
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/08/17/nginx-bu-shu-jing-tai-vue-xiang-mu-shi-de-zhu-yi-shi-xiang/">
+                <a href="/2020/09/18/spring-boot-shi-yong-systemd-bu-shu/">
                     <div class="card-image">
                         
-                        <img src="/gallery/thumbnails/vue-nginx.png" class="responsive-img" alt="nginx部署静态vue项目时的注意事项">
+                        <img src="/gallery/thumbnails/spring-boot.png" class="responsive-img" alt="spring boot使用systemd部署">
                         
-                        <span class="card-title">nginx部署静态vue项目时的注意事项</span>
+                        <span class="card-title">spring boot使用systemd部署</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            nginx部署静态vue项目时应注意publicPath配置
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-08-17
-                        </span>
-                        <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/前端/" class="post-category">
-                                    前端
-                                </a>
-                            
-                            <a href="/categories/前端/运维/" class="post-category">
-                                    运维
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/vue/">
-                        <span class="chip bg-color">vue</span>
-                    </a>
-                    
-                    <a href="/tags/nginx/">
-                        <span class="chip bg-color">nginx</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
-            </div>
-            <div class="card">
-                <a href="/2019/08/16/centeros-docker-an-zhuang-ji-jian-dan-ying-yong/">
-                    <div class="card-image">
-                        
-                        <img src="/gallery/thumbnails/docker.png" class="responsive-img" alt="centeros docker安装及简单应用">
-                        
-                        <span class="card-title">centeros docker安装及简单应用</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            docker安裝
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-08-16
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-18
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/docker/" class="post-category">
-                                    docker
-                                </a>
-                            
-                            <a href="/categories/docker/CI-CD/" class="post-category">
-                                    CI/CD
+                            <a href="/categories/运维/" class="post-category">
+                                    运维
                                 </a>
                             
                             
@@ -972,12 +797,57 @@ docker run -d -it -p 19200:9200 -p 19300:9300 -e "discovery.type=single-node" -e
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/docker/">
-                        <span class="chip bg-color">docker</span>
+                    <a href="/tags/日常运维/">
+                        <span class="chip bg-color">日常运维</span>
                     </a>
                     
-                    <a href="/tags/jenkins/">
-                        <span class="chip bg-color">jenkins</span>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/09/18/svn-an-zhuang/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="svn安装">
+                        
+                        <span class="card-title">svn安装</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            svn服务器安装
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-18
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/运维/" class="post-category">
+                                    运维
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/日常运维/">
+                        <span class="chip bg-color">日常运维</span>
                     </a>
                     
                 </div>

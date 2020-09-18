@@ -362,7 +362,7 @@
                     <div class="post-statis col l4 hide-on-med-and-down" data-aos="zoom-in-right">
                         
 <div class="statis">
-    <span class="count"><a href="/">6</a></span>
+    <span class="count"><a href="/">7</a></span>
     <span class="name">文章</span>
 </div>
 
@@ -376,7 +376,7 @@
 
 
 <div class="statis">
-    <span class="count"><a href="/tags">10</a></span>
+    <span class="count"><a href="/tags">11</a></span>
     <span class="name">标签</span>
 </div>
 
@@ -392,7 +392,7 @@
                                 <div class="post-statis hide-on-large-only" data-aos="zoom-in-right">
                                     
 <div class="statis">
-    <span class="count"><a href="/">6</a></span>
+    <span class="count"><a href="/">7</a></span>
     <span class="name">文章</span>
 </div>
 
@@ -406,7 +406,7 @@
 
 
 <div class="statis">
-    <span class="count"><a href="/tags">10</a></span>
+    <span class="count"><a href="/tags">11</a></span>
     <span class="name">标签</span>
 </div>
 
@@ -542,7 +542,7 @@
                 name: '文章篇数',
                 type: 'line',
                 color: ['#6772e5'],
-                data: [0,1,1,0,0,0,0,0,0,0,0,0,0],
+                data: [0,1,0,0,0,0,0,0,0,0,0,0,2],
                 markPoint: {
                     symbolSize: 45,
                     color: ['#fa755a','#3ecf8e','#82d3f4'],
@@ -584,7 +584,7 @@
                 type: 'pie',
                 radius: '50%',
                 color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"架构设计","value":0},{"name":"docker","value":1},{"name":"运维","value":1},{"name":"前端","value":1},{"name":"java","value":3},{"name":"CI/CD","value":1},{"name":"运维","value":1}],
+                data: [{"name":"运维","value":2},{"name":"架构设计","value":0},{"name":"java","value":3},{"name":"docker","value":1},{"name":"前端","value":1},{"name":"CI/CD","value":1},{"name":"运维","value":1}],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -608,7 +608,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: ["grpc","graphql","docker","jenkins","CI/CD","运维","vue","nginx","issue","架构设计"]
+                data: ["grpc","graphql","日常运维","issue","docker","jenkins","vue","nginx","运维","架构设计"]
             }
         ],
         yAxis: [
@@ -621,7 +621,7 @@
                 type: 'bar',
                 color: ['#82d3f4'],
                 barWidth : 18,
-                data: [2,2,1,1,1,1,1,1,1,0],
+                data: [2,2,2,1,1,1,1,1,0,0],
                 markPoint: {
                     symbolSize: 45,
                     data: [{
@@ -739,8 +739,26 @@
         <div class="tag-chips center-align">
             
             
+            <a href="/tags/CI-CD/">
+                <span class="chip center-align waves-effect waves-light chip-default">CI/CD</span>
+            </a>
+            
+            
+            
+            <a href="/tags/运维/">
+                <span class="chip center-align waves-effect waves-light chip-default">运维</span>
+            </a>
+            
+            
+            
             <a href="/tags/架构设计/">
                 <span class="chip center-align waves-effect waves-light chip-default">架构设计</span>
+            </a>
+            
+            
+            
+            <a href="/tags/issue/">
+                <span class="chip center-align waves-effect waves-light chip-default">issue</span>
             </a>
             
             
@@ -757,18 +775,6 @@
             
             
             
-            <a href="/tags/CI-CD/">
-                <span class="chip center-align waves-effect waves-light chip-default">CI/CD</span>
-            </a>
-            
-            
-            
-            <a href="/tags/运维/">
-                <span class="chip center-align waves-effect waves-light chip-default">运维</span>
-            </a>
-            
-            
-            
             <a href="/tags/vue/">
                 <span class="chip center-align waves-effect waves-light chip-default">vue</span>
             </a>
@@ -781,20 +787,20 @@
             
             
             
-            <a href="/tags/issue/">
-                <span class="chip center-align waves-effect waves-light chip-default">issue</span>
-            </a>
-            
-            
-            
-            <a href="/tags/grpc/">
-                <span class="chip center-align waves-effect waves-light chip-default">grpc</span>
+            <a href="/tags/日常运维/">
+                <span class="chip center-align waves-effect waves-light chip-default">日常运维</span>
             </a>
             
             
             
             <a href="/tags/graphql/">
                 <span class="chip center-align waves-effect waves-light chip-default">graphql</span>
+            </a>
+            
+            
+            
+            <a href="/tags/grpc/">
+                <span class="chip center-align waves-effect waves-light chip-default">grpc</span>
             </a>
             
             

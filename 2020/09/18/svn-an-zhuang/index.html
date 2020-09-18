@@ -4,7 +4,7 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="org.hibernate.LazyInitializationException, silencecorner,silence角落,java,分布式">
+    <meta name="keywords" content="svn安装, silencecorner,silence角落,java,分布式">
     <meta name="description" content="人之所以愤怒,源于对自身的无能">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>org.hibernate.LazyInitializationException | silence角落</title>
+    <title>svn安装 | silence角落</title>
     <link rel="icon" type="image/jpeg" href="/medias/avatar.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/gallery/thumbnails/unitOfWork.png')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">org.hibernate.LazyInitializationException</h1>
+                    <h1 class="description center-align post-title">svn安装</h1>
                 </div>
             </div>
         </div>
@@ -430,8 +430,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/issue/">
-                                <span class="chip bg-color">issue</span>
+                            <a href="/tags/日常运维/">
+                                <span class="chip bg-color">日常运维</span>
                             </a>
                         
                     </div>
@@ -442,8 +442,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/java/" class="post-category">
-                                java
+                            <a href="/categories/运维/" class="post-category">
+                                运维
                             </a>
                         
                     </div>
@@ -455,21 +455,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-08-19
+                    2020-09-18
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-09-17
+                    2020-09-18
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.2k
+                    213
                 </div>
                 
 
@@ -481,113 +481,60 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <img src="/gallery/thumbnails/unitOfWork.png" title="unitOfWork">
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>使用reflectasm的MethodAccess调用get方法出错，报错<code>org.hibernate.LazyInitializationException: could not initialize proxy [com.bd.post.model.Post#2] - no Session</code></p>
-<a id="more"></a>
+                <pre><code>yum install subversion
+mkdir -p /home/svn/repo
+svnadmin create /home/svn/repo</code></pre><p>修改<code>/home/svn/repo</code>svnserve.conf配置</p>
+<pre><code># anon-access = read
+  auth-access = write
+  password-db = passwd
+  authz-db = authz
+  realm = /home/svn/repo</code></pre><pre><code>[groups]
+# harry_and_sally = harry,sally
+# harry_sally_and_joe = harry,sally,&amp;joe
+admin = admin
+developer = developer
 
-<h1 id="查错过程"><a href="#查错过程" class="headerlink" title="查错过程"></a>查错过程</h1><p>使用的orm框架是<code>spring data jpa</code>，<code>LazyInitializationException</code>第一时间想到<code>hibernate</code>和<code>spring data jpa</code>的懒加载机制。我理解的懒加载的概念是<code>在真正使用数据的时候才去执行sql语句(配置外键关联)，查询对外建关联对象</code>，但是我的model配置如下：</p>
-<pre><code>/**
- * @author &lt;a href="mailto:hilin2333@gmail.com"&gt;created by silencecorner 2019/7/10 3:28 PM&lt;/a&gt;
- */
-@NoArgsConstructor
-@Entity
-@Data
-@EntityListeners(AuditingEntityListener.class)
-@ProtoClass(PostProto.Post.class)
-public class Post {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ProtoField
-    private Integer id;
-    @ProtoField
-    private String title;
-    @ProtoField
-    private String body;
-    @ProtoField
-    private Integer authorId;
+# [/foo/bar]
+# harry = rw
+# &amp;joe = r
+# * =
 
-    @CreatedDate
-    @ProtoField(nullValue = ProtobufNullValueInspectorImpl.class,converter = LocalDateTimeConverterImpl.class)
-    private LocalDateTime createdAt;
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
+#[/home/svn/repo]
+#@admin = rw
 
-    public Post(String title, String body) {
-        this.title = title;
-        this.body = body;
-    }
+# [repository:/baz/fuz]
+# @harry_and_sally = rw
+# * = r
 
-    public Post(String title, String body, Integer authorId) {
-        this.title = title;
-        this.body = body;
-        this.authorId = authorId;
-    }
-}</code></pre><p>这里我并没有配置外键的关联对象呀！<br><br>具体的错误信息里面又有<code>no session</code>，在orm框架里面都有session的概念对应数据库的session，在mybatis中是<code>sqlsession</code>,spring data jpa和hibernate中就叫session。检查代码发现使用了<code>JpaRepository的getOne</code>方法获取数据</p>
-<pre><code>  /**
-  * Returns a reference to the entity with the given identifier. Depending on how the JPA persistence provider is
-  * implemented this is very likely to always return an instance and throw an
-  * {@link javax.persistence.EntityNotFoundException} on first access. Some of them will reject invalid identifiers
-  * immediately.
-  *
-  * @param id must not be {@literal null}.
-  * @return a reference to the entity with the given identifier.
-  * @see EntityManager#getReference(Class, Object) for details on when an exception is thrown.
-  */
-  T getOne(ID id);</code></pre><p>大概的意思是，只返回一个引用，信息看异常信息，what?<br>找到调用的方法说明</p>
-<pre><code>  /**
-    * Get an instance, whose state may be lazily fetched.
-    * If the requested instance does not exist in the database,
-    * the &lt;code&gt;EntityNotFoundException&lt;/code&gt; is thrown when the instance 
-    * state is first accessed. (The persistence provider runtime is 
-    * permitted to throw the &lt;code&gt;EntityNotFoundException&lt;/code&gt; when 
-    * &lt;code&gt;getReference&lt;/code&gt; is called.)
-    * The application should not expect that the instance state will
-    * be available upon detachment, unless it was accessed by the
-    * application while the entity manager was open.
-    * @param entityClass  entity class
-    * @param primaryKey  primary key
-    * @return the found entity instance
-    * @throws IllegalArgumentException if the first argument does
-    *         not denote an entity type or the second argument is
-    *         not a valid type for that entity's primary key or
-    *         is null
-    * @throws EntityNotFoundException if the entity state 
-    *         cannot be accessed
-    */
-  public &lt;T&gt; T getReference(Class&lt;T&gt; entityClass, Object primaryKey);</code></pre><p>这里终于说啦是懒加载，然后就是不希望这个对象变成游离态，除非entity manager打开。好吧！这里顺便回忆一下hibernate和jpa的对象状态，这些状态都是从<a href="https://martinfowler.com/eaaCatalog/unitOfWork.html" target="_blank" rel="noopener">martinfowler的工作单元/Unit of Work</a>思想得来的。这些概念都是隶属于<code>persistence coentext</code>，翻译过来就是持久化上下文，既然隶属一个上下文那肯定是有关系的。其中</p>
-<ul>
-<li>瞬时态/transient <blockquote>
-<p>新new的一个就是表对象，这个对象就是瞬时态</p>
-</blockquote>
-</li>
-<li>持久态/persistent <blockquote>
-<p>执行一下save方法，这个对象就变成持久态</p>
-</blockquote>
-</li>
-<li>游离态/detachment <blockquote>
-<p>这个保存过的对象修改属性之后就变成了游离态（ps:持久态修改属性都会变成游离态)。好了，上面有一句最关键的话就是<code>unless it was accessed by the application while the entity manager was open</code>。去找一下我们的<code>EntityManager</code>接口，它是实现了<code>Session</code>接口的。很自然的就想到了事务，持久化没有事务怎么能行（我当时写的时候还真没有加，哈哈！）。</p>
-</blockquote>
-</li>
-</ul>
-<p><a href="https://github.com/silencecorner/graphql-grpc-exmaple/blob/master/post-api-java/src/main/java/com/bd/post/service/PostServiceImpl.java#L67" target="_blank" rel="noopener">代码源文件</a></p>
-<pre><code>@Transactional
-@Override
-public void updatePost(PostProto.UpdatePostRequest request, StreamObserver&lt;PostProto.Post&gt; responseObserver){
-  check(request);
-  // field_mask 填充字段
-  Configuration configuration = Configuration.builder().addIgnoredFields(new FieldsIgnore().add(Post.class, "authorId", "createdAt")).build();
-  Post post = Converter.create(configuration).toDomain(Post.class, request);
-  Post newPost = postRepository.getOne(post.getId());
-  CopyUtils.copyProperties(post, newPost, true);
-  responseObserver.onNext(modelToRpc(postRepository.save(newPost)));
-  responseObserver.onCompleted();
-}</code></pre><p>那么在什么场景下去使用返回<code>Optional</code>的<code>findById</code>，什么时候使用返回懒加载对象的<code>getOne</code>呢？从含义上来讲，<code>getOne</code>表示数据一定存在，可以在udpate的时候使用，而<code>findById</code> 会立刻返回结果，可能存在也可能不存在。另外，<code>getOne</code>因为是返回的是一个引用，还没有具体执行，给一种异步的感觉，可以在响应式web程序中使用返回<code>CompletableFuture</code>等封装对象，当也得符合数据必须在数据库中存在这个条件。</p>
-<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><p>懒加载需要将相应的东西保存到session，我们能控制就是加一个事务注解在方法上<code>@Transactional</code>声明这个方法没有执行完之前session不关闭。因为使用的spring boot，也可以加一个<b>不推荐使用</b>的<a href="https://vladmihalcea.com/the-hibernate-enable_lazy_load_no_trans-anti-pattern/" target="_blank" rel="noopener">配置</a>：</p>
-<pre><code>spring.jpa.properties.hibernate.enable_lazy_load_no_trans=true</code></pre><p>搞定</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>jdbc的中sesion和数据库的sesion的是一个东西，sesion中保存当前会话变量事务声明！在hibernate和jpa中还有一个<code>persistence coentext</code>的概念：游离态、瞬时态、持久态，这些其实都是跟session密切相关的。</p>
-<hr>
-<p>多看看学学还是有必要的，have a nice day ^_^!</p>
-<script>
+[repo:/]
+@admin = rw
+* =
+
+# repo就是仓库名字，配置仓库目录下的权限
+[repo:/requirement]
+@admin = rw
+@developer = rw
+* =</code></pre><p>svn systemd部署（开机启动）</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">tee</span> /etc/systemd/system/svn.service <span class="token operator">&lt;&lt;</span>-<span class="token string">'EOF'</span>
+<span class="token punctuation">[</span>Unit<span class="token punctuation">]</span>
+Description<span class="token operator">=</span>svn服务
+After<span class="token operator">=</span>syslog.target
+
+<span class="token punctuation">[</span>Service<span class="token punctuation">]</span>
+User<span class="token operator">=</span>root
+Type<span class="token operator">=</span>forking
+Restart<span class="token operator">=</span>on-failure
+RestartSec<span class="token operator">=</span>10
+
+ExecStart<span class="token operator">=</span>/usr/bin/svnserve --daemon --pid-file<span class="token operator">=</span>/home/svn/svn.pid -d -r /home/svn
+SuccessExitStatus<span class="token operator">=</span>143
+
+<span class="token punctuation">[</span>Install<span class="token punctuation">]</span>
+WantedBy<span class="token operator">=</span>multi-user.target
+EOF</code></pre>
+<pre><code>systemctl enable svn
+systemctl start svn
+systemctl status svn</code></pre><script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
             if (!el.dataset.src) { return; }
@@ -630,7 +577,7 @@ public void updatePost(PostProto.UpdatePostRequest request, StreamObserver&lt;Po
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://silencecorner.github.io/2019/08/19/org-hibernate-lazyinitializationexception-could-not-initialize-proxy-xxxx-no/">http://silencecorner.github.io/2019/08/19/org-hibernate-lazyinitializationexception-could-not-initialize-proxy-xxxx-no/</a>
+                    <a href="http://blog.silencecorner.cn/2020/09/18/svn-an-zhuang/">http://blog.silencecorner.cn/2020/09/18/svn-an-zhuang/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -668,8 +615,8 @@ public void updatePost(PostProto.UpdatePostRequest request, StreamObserver&lt;Po
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/issue/">
-                                    <span class="chip bg-color">issue</span>
+                                <a href="/tags/日常运维/">
+                                    <span class="chip bg-color">日常运维</span>
                                 </a>
                             
                         </div>
@@ -840,7 +787,7 @@ public void updatePost(PostProto.UpdatePostRequest request, StreamObserver&lt;Po
         repo: 'silencecorner.github.io',
         owner: 'silencecorner',
         admin: "silencecorner",
-        id: '2019-08-19T17-07-45',
+        id: '2020-09-18T09-45-22',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -868,6 +815,54 @@ public void updatePost(PostProto.UpdatePostRequest request, StreamObserver&lt;Po
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
+                <a href="/2020/09/18/spring-boot-shi-yong-systemd-bu-shu/">
+                    <div class="card-image">
+                        
+                        <img src="/gallery/thumbnails/spring-boot.png" class="responsive-img" alt="spring boot使用systemd部署">
+                        
+                        <span class="card-title">spring boot使用systemd部署</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-09-18
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/运维/" class="post-category">
+                                    运维
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/日常运维/">
+                        <span class="chip bg-color">日常运维</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
                 <a href="/2019/10/24/grpc-yu-graphql-zui-jia-shi-jian/">
                     <div class="card-image">
                         
@@ -884,61 +879,8 @@ public void updatePost(PostProto.UpdatePostRequest request, StreamObserver&lt;Po
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-10-24
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/java/" class="post-category">
-                                    java
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/grpc/">
-                        <span class="chip bg-color">grpc</span>
-                    </a>
-                    
-                    <a href="/tags/graphql/">
-                        <span class="chip bg-color">graphql</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2019/08/18/graphql-grpc-in-java-world-1/">
-                    <div class="card-image">
-                        
-                        <img src="/gallery/thumbnails/1_o9_bjlKXlMjii3G7BCNb-Q.png" class="responsive-img" alt="graphql与grpc集成">
-                        
-                        <span class="card-title">graphql与grpc集成</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-前言graphql和grpc的protobuf的schema都是一个描述性文件，只是双方的具体作用有差别而已。在Java中使用schema first的graphql-java-tools无疑是graphql在java语言的最佳入门实践，
-                        
-                    </div>
-                    <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-08-18
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-10-24
                             </span>
                         <span class="publish-author">
                             
@@ -955,12 +897,12 @@ public void updatePost(PostProto.UpdatePostRequest request, StreamObserver&lt;Po
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/grpc/">
-                        <span class="chip bg-color">grpc</span>
-                    </a>
-                    
                     <a href="/tags/graphql/">
                         <span class="chip bg-color">graphql</span>
+                    </a>
+                    
+                    <a href="/tags/grpc/">
+                        <span class="chip bg-color">grpc</span>
                     </a>
                     
                 </div>

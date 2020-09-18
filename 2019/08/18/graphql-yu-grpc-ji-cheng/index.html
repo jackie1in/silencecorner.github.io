@@ -4,7 +4,7 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="docker muti-stage build, silencecorner,silence角落,java,分布式">
+    <meta name="keywords" content="graphql与grpc集成, silencecorner,silence角落,java,分布式">
     <meta name="description" content="人之所以愤怒,源于对自身的无能">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>docker muti-stage build | silence角落</title>
+    <title>graphql与grpc集成 | silence角落</title>
     <link rel="icon" type="image/jpeg" href="/medias/avatar.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/gallery/thumbnails/multi-stage.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/gallery/thumbnails/1_o9_bjlKXlMjii3G7BCNb-Q.png')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">docker muti-stage build</h1>
+                    <h1 class="description center-align post-title">graphql与grpc集成</h1>
                 </div>
             </div>
         </div>
@@ -430,12 +430,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/CI-CD/">
-                                <span class="chip bg-color">CI/CD</span>
+                            <a href="/tags/graphql/">
+                                <span class="chip bg-color">graphql</span>
                             </a>
                         
-                            <a href="/tags/运维/">
-                                <span class="chip bg-color">运维</span>
+                            <a href="/tags/grpc/">
+                                <span class="chip bg-color">grpc</span>
                             </a>
                         
                     </div>
@@ -446,8 +446,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/运维/" class="post-category">
-                                运维
+                            <a href="/categories/java/" class="post-category">
+                                java
                             </a>
                         
                     </div>
@@ -459,21 +459,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-11-04
+                    2019-08-18
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-09-17
+                    2020-09-18
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    168
+                    1.4k
                 </div>
                 
 
@@ -485,8 +485,254 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <img src="/gallery/thumbnails/multi-stage.jpg" title="mutistage_build">
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>docker 多阶段构建是从<a href="https://docs.docker.com/engine/release-notes/#17050-ce" target="_blank" rel="noopener">17.05.0-ce</a>开始支持的，所以你要使用这个功能那么你的docker版本必须大于这个。使用<code>muti-stage build</code>可以减少构建之后的镜像大小，使用依赖缓存，可以在CI/CD的场景中使用，避免管理多个编译环境的尴尬（一台机器你打算装多少nodejs、java版本，此外还有编译工具npm、yarn、maven、gradle😅）</p>
+                <img src="/gallery/thumbnails/1_o9_bjlKXlMjii3G7BCNb-Q.png" title="架构图">
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>graphql和grpc的protobuf的schema都是一个描述性文件，只是双方的具体作用有差别而已。在Java中使用schema first的<code>graphql-java-tools</code>无疑是graphql在java语言的最佳入门实践，那么问题就来啦！protobuf和graphql各自都有自己的类型系统，graphql因为会序列化为json，那么就要遵从java bean的规范（序列化框架要求），protobuf使用的builder构造对象，没有默认的构造方法。<a id="more"></a>  <br><br>本文代码仓库地址:<a href="https://github.com/silencecorner/graphql-grpc-exmaple" target="_blank" rel="noopener">https://github.com/silencecorner/graphql-grpc-exmaple</a>，如果了解<a href="https://github.com/graphql-java-kickstart" target="_blank" rel="noopener">graphql-java-kickstart</a>的代码的话，可以直接查看源代码！</p>
+<ul>
+<li><code>graphql-api</code> nodejs实现的网关</li>
+<li><code>graphql-gateway-java</code> java实现的网关</li>
+<li><code>post-api-java</code> post服务端微服务程序</li>
+<li><code>protos</code> proto源文件</li>
+<li><code>schema</code> graphql文件目录</li>
+<li><code>vue-apollo-sample</code> 基于graphql规范的vue项目</li>
+</ul>
+<h3 id="优化思路"><a href="#优化思路" class="headerlink" title="优化思路"></a>优化思路</h3><h4 id="nodejs"><a href="#nodejs" class="headerlink" title="nodejs"></a>nodejs</h4><p>因为在去年实践过一次，没有深入思考，写起来总感觉有一点别扭！所以最开始我的想法是改用nodejs来写去掉类型检查，也写过一个在<a href="https://github.com/silencecorner/graphql-grpc-exmaple/tree/master/graphql-api" target="_blank" rel="noopener">repo的graphql-api中</a></p>
+<h4 id="converter"><a href="#converter" class="headerlink" title="converter"></a>converter</h4><p>nodejs写起来挺简单的，但是java才是主要开发语言，所以又按照去年的那个套路实现了一次，按照converter的思路使用了<a href="https://github.com/silencecorner/protobuf-converter" target="_blank" rel="noopener">protobuf-converter</a>类库,优化了一下但是还是有一些不适。</p>
+<h4 id="jackson序列化框架"><a href="#jackson序列化框架" class="headerlink" title="jackson序列化框架"></a>jackson序列化框架</h4><p>今天我就在想能不能jackson和protobuf之间做桥接一下，google搜索了果然已经有实现的<a href="https://github.com/HubSpot/jackson-datatype-protobuf" target="_blank" rel="noopener">类库</a>，终于不用再写一遍java model啦！</p>
+<h5 id="删除代码"><a href="#删除代码" class="headerlink" title="删除代码"></a>删除代码</h5><p>删除之前的inputs、types package，改用protobuf生成的代码，这里桥接要注入<code>ProtobufModule</code>，又想能不能直接使用返回<code>ListenableFuture</code>实例，通过查找资料可以实现。</p>
+<h5 id="添加GraphqlToolConfiguration-java"><a href="#添加GraphqlToolConfiguration-java" class="headerlink" title="添加GraphqlToolConfiguration.java"></a>添加<code>GraphqlToolConfiguration.java</code></h5><pre><code>@Configuration
+public class GraphqlToolConfiguration {
+    @Bean
+    SchemaParserOptions options(){
+        ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json()
+            .modules(new ProtobufModule(), new Jdk8Module(), new KotlinModule(), new JavaTimeModule())
+            .build();
+        return SchemaParserOptions.newOptions()
+            .genericWrappers(SchemaParserOptions.GenericWrapper
+                .withTransformer(ListenableFuture.class,0,ListenableFuturesExtra::toCompletableFuture, type -&gt; type))
+            .objectMapperProvider(fieldDefinition -&gt; objectMapper )
+            .useDefaultGenericWrappers(true)
+            .build();
+    }
+}</code></pre><p>这样我们就可以使用protobuf生成的class、grpc直接返回的<code>ListenableFuture</code>，字段对应protobuf的<a href="https://developers.google.com/protocol-buffers/docs/style#message-and-field-names" target="_blank" rel="noopener">JsonName</a>，</p>
+<h5 id="schema-graphql"><a href="#schema-graphql" class="headerlink" title="schema.graphql"></a>schema.graphql</h5><pre class=" language-graphql"><code class="language-graphql">scalar DateTime
+
+
+<span class="token comment" spellcheck="true"># 作者</span>
+type Author<span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true"># unique id</span>
+  <span class="token attr-name">id</span><span class="token punctuation">:</span> ID<span class="token operator">!</span>
+  <span class="token comment" spellcheck="true"># 名称</span>
+  <span class="token attr-name">name</span><span class="token punctuation">:</span> String
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true"># 添加作者参数</span>
+input AddAuthorRequest<span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true"># 名字</span>
+  <span class="token attr-name">name</span><span class="token punctuation">:</span> String<span class="token operator">!</span>
+<span class="token punctuation">}</span>
+
+type Post <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true"># id</span>
+  <span class="token attr-name">id</span><span class="token punctuation">:</span> ID
+  <span class="token comment" spellcheck="true"># 标题</span>
+  <span class="token attr-name">title</span><span class="token punctuation">:</span> String
+  <span class="token comment" spellcheck="true"># 内容</span>
+  <span class="token attr-name">body</span><span class="token punctuation">:</span> String
+  <span class="token comment" spellcheck="true"># 创建时间</span>
+  <span class="token attr-name">createdAt</span><span class="token punctuation">:</span> DateTime
+  <span class="token comment" spellcheck="true"># 文章作者</span>
+  <span class="token attr-name">author</span><span class="token punctuation">:</span> Author
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true"># 分页返回结果</span>
+type Posts <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true"># 总数</span>
+  <span class="token attr-name">count</span><span class="token punctuation">:</span> Int
+  <span class="token comment" spellcheck="true"># 当前页</span>
+  <span class="token attr-name">page</span><span class="token punctuation">:</span> Int
+  <span class="token comment" spellcheck="true"># 条数</span>
+  <span class="token attr-name">limit</span><span class="token punctuation">:</span> Int
+  <span class="token comment" spellcheck="true"># 结点</span>
+  <span class="token attr-name">nodesList</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>Post<span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true"># 添加文章参数</span>
+input AddPostRequest <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true"># 标题</span>
+  <span class="token attr-name">title</span><span class="token punctuation">:</span> String
+  <span class="token comment" spellcheck="true"># 内容</span>
+  <span class="token attr-name">body</span><span class="token punctuation">:</span> String
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true"># 分页参数</span>
+input ListPostRequest<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true"># 第几页</span>
+    <span class="token attr-name">page</span><span class="token punctuation">:</span> Int<span class="token operator">!</span>
+    <span class="token comment" spellcheck="true"># 获取条数</span>
+    <span class="token attr-name">limit</span><span class="token punctuation">:</span> Int<span class="token operator">!</span>
+<span class="token punctuation">}</span>
+type Query <span class="token punctuation">{</span>
+  listPosts<span class="token punctuation">(</span><span class="token attr-name">request</span><span class="token punctuation">:</span> ListPostRequest<span class="token punctuation">)</span><span class="token punctuation">:</span> Posts
+<span class="token punctuation">}</span>
+
+type Mutation <span class="token punctuation">{</span>
+  addPost<span class="token punctuation">(</span><span class="token attr-name">request</span><span class="token punctuation">:</span> AddPostRequest<span class="token punctuation">)</span><span class="token punctuation">:</span> Post
+  <span class="token comment" spellcheck="true"># 新增作者</span>
+  addAuthor<span class="token punctuation">(</span><span class="token attr-name">request</span><span class="token punctuation">:</span> AddAuthorRequest<span class="token operator">!</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Author
+<span class="token punctuation">}</span>
+
+schema <span class="token punctuation">{</span>
+  <span class="token attr-name">query</span><span class="token punctuation">:</span> Query
+  <span class="token attr-name">mutation</span><span class="token punctuation">:</span> Mutation
+<span class="token punctuation">}</span></code></pre>
+<h5 id="Mutation-java"><a href="#Mutation-java" class="headerlink" title="Mutation.java"></a>Mutation.java</h5><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@AllArgsConstructor</span>
+<span class="token annotation punctuation">@Component</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Mutation</span> <span class="token keyword">implements</span> <span class="token class-name">GraphQLMutationResolver</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">final</span> PostClient postClient<span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">final</span> AuthorClient authorClient<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> ListenableFuture<span class="token operator">&lt;</span>PostProto<span class="token punctuation">.</span>Post<span class="token operator">></span> <span class="token function">addPost</span><span class="token punctuation">(</span>PostProto<span class="token punctuation">.</span>AddPostRequest request<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">return</span> postClient<span class="token punctuation">.</span><span class="token function">addPost</span><span class="token punctuation">(</span>request<span class="token punctuation">.</span><span class="token function">toBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setAuthorId</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> ListenableFuture<span class="token operator">&lt;</span>AuthorProto<span class="token punctuation">.</span>Author<span class="token operator">></span> <span class="token function">addAuthor</span><span class="token punctuation">(</span>AuthorProto<span class="token punctuation">.</span>AddAuthorRequest request<span class="token punctuation">)</span><span class="token punctuation">{</span>
+          <span class="token keyword">return</span> authorClient<span class="token punctuation">.</span><span class="token function">addAuthor</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h5 id="Query-java"><a href="#Query-java" class="headerlink" title="Query.java"></a>Query.java</h5><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@AllArgsConstructor</span>
+<span class="token annotation punctuation">@Component</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Query</span> <span class="token keyword">implements</span> <span class="token class-name">GraphQLQueryResolver</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> PostClient postClient<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> ListenableFuture<span class="token operator">&lt;</span>PostProto<span class="token punctuation">.</span>Posts<span class="token operator">></span> <span class="token function">listPosts</span><span class="token punctuation">(</span>PostProto<span class="token punctuation">.</span>ListPostRequest request<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">return</span> postClient<span class="token punctuation">.</span><span class="token function">listPost</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h5 id="PostResolver-java"><a href="#PostResolver-java" class="headerlink" title="PostResolver.java"></a>PostResolver.java</h5><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Component</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PostResolver</span> <span class="token keyword">implements</span> <span class="token class-name">GraphQLResolver</span><span class="token operator">&lt;</span>PostProto<span class="token punctuation">.</span>Post<span class="token operator">></span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> AuthorClient authorClient<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> ListenableFuture<span class="token operator">&lt;</span>AuthorProto<span class="token punctuation">.</span>Author<span class="token operator">></span> <span class="token function">author</span><span class="token punctuation">(</span>PostProto<span class="token punctuation">.</span>Post post<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">return</span> authorClient<span class="token punctuation">.</span><span class="token function">getAuthor</span><span class="token punctuation">(</span>post<span class="token punctuation">.</span><span class="token function">getAuthorId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<h5 id="repeated字段转换失败解决"><a href="#repeated字段转换失败解决" class="headerlink" title="repeated字段转换失败解决"></a><code>repeated</code>字段转换失败解决</h5><p>proto定义的是<a href="https://github.com/silencecorner/graphql-grpc-exmaple/blob/master/protos/Post.proto#L26" target="_blank" rel="noopener">nodes</a>字段，生成的java代码的get方法是<code>getNodesList</code>，此时对应的jackson的json字段就变成<code>nodesList</code>，我们的graphql中使用是<code>nodes</code>字段，按照<code>graphql-java-tools</code>的解析顺序</p>
+<ul>
+<li>com.bd.gateway.resolvers.post.PostsResolver.nodes(sample.PostProto$Posts)</li>
+<li>com.bd.gateway.resolvers.post.PostsResolver.getNodes(sample.PostProto$Posts)</li>
+<li>com.bd.gateway.resolvers.post.PostsResolver.nodes</li>
+<li>sample.PostProto$Posts.nodes()</li>
+<li>sample.PostProto$Posts.getNodes()</li>
+<li>sample.PostProto$Posts.nodes</li>
+</ul>
+<p>同样对<code>repeated</code>修饰的请求参数同样生效，通过<a href="https://github.com/silencecorner/graphql-java-tools/commit/659d342281012653126aa1d8d9962af2f348a816" target="_blank" rel="noopener">添加graphql-java-tools List后缀匹配</a>，解决<code>repeated</code>字段桥接转换失败的问题</p>
+<h5 id="PostClient-java"><a href="#PostClient-java" class="headerlink" title="PostClient.java"></a>PostClient.java</h5><pre><code>@Service
+public class PostClient {
+    @GrpcClient("post-grpc-server")
+    private PostServiceGrpc.PostServiceFutureStub postServiceFutureStub;
+
+    public ListenableFuture&lt;PostProto.Post&gt; addPost(sample.PostProto.AddPostRequest request){
+        return postServiceFutureStub.addPost(request);
+    }
+
+    public ListenableFuture&lt;PostProto.Posts&gt; listPost(sample.PostProto.ListPostRequest request){
+        return postServiceFutureStub.listPosts(request);
+    }
+
+}</code></pre><h5 id="AuthorClient-java"><a href="#AuthorClient-java" class="headerlink" title="AuthorClient.java"></a>AuthorClient.java</h5><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AuthorClient</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@GrpcClient</span><span class="token punctuation">(</span><span class="token string">"author-grpc-server"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> AuthorServiceGrpc<span class="token punctuation">.</span>AuthorServiceFutureStub authorServiceFutureStub<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> ListenableFuture<span class="token operator">&lt;</span>AuthorProto<span class="token punctuation">.</span>Author<span class="token operator">></span> <span class="token function">addAuthor</span><span class="token punctuation">(</span>AuthorProto<span class="token punctuation">.</span>AddAuthorRequest request<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">return</span> authorServiceFutureStub<span class="token punctuation">.</span><span class="token function">addAuthor</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+
+    <span class="token keyword">public</span> ListenableFuture<span class="token operator">&lt;</span>AuthorProto<span class="token punctuation">.</span>Author<span class="token operator">></span> <span class="token function">getAuthor</span><span class="token punctuation">(</span>Integer id<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">return</span> authorServiceFutureStub<span class="token punctuation">.</span><span class="token function">getAuthor</span><span class="token punctuation">(</span>AuthorProto<span class="token punctuation">.</span>GetAuthorRequest<span class="token punctuation">.</span><span class="token function">newBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setId</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="new-feature"><a href="#new-feature" class="headerlink" title="new feature"></a>new feature</h3><p><a href="https://developers.google.com/protocol-buffers/docs/proto3" target="_blank" rel="noopener">proto3</a>原生是不支持数据验证的，可能我们就要手写代码一个字段一个字段去做校验，项目中就会出现大量的丑陋到爆炸的代码。这里我找到一个protoc的<a href="https://github.com/envoyproxy/protoc-gen-validate" target="_blank" rel="noopener">validate plugin</a>，目前支持</p>
+<ul>
+<li>go</li>
+<li>gogo </li>
+<li>cc for c++</li>
+<li>java</li>
+</ul>
+<p>以目前情况来讲，不需要多语言调用，即使出现多语言调用的情况也可以，不影响正常调用，只是缺少验证而已，再不济也可以自己实现嘛！</p>
+<h4 id="修改proto"><a href="#修改proto" class="headerlink" title="修改proto"></a>修改proto</h4><pre class=" language-proto"><code class="language-proto">import "validate/validate.proto";
+message AddAuthorRequest{
+    string name = 1 [(validate.rules).string = {min_len: 5, max_len: 10}];
+}</code></pre>
+<h4 id="修改build-gradle"><a href="#修改build-gradle" class="headerlink" title="修改build.gradle"></a>修改build.gradle</h4><h5 id="添加必要依赖"><a href="#添加必要依赖" class="headerlink" title="添加必要依赖"></a>添加必要依赖</h5><pre class=" language-gradle"><code class="language-gradle">compile "io.envoyproxy.protoc-gen-validate:pgv-java-stub:${pgvVersion}"
+compile "io.envoyproxy.protoc-gen-validate:pgv-java-grpc:${pgvVersion}"</code></pre>
+<h5 id="修改编译配置"><a href="#修改编译配置" class="headerlink" title="修改编译配置"></a>修改编译配置</h5><pre class=" language-gradle"><code class="language-gradle">protobuf {
+    // Configure the protoc executable
+    protoc {
+        artifact = "com.google.protobuf:protoc:${protocVersion}"
+    }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+        }
+        javapgv {
+            artifact = "io.envoyproxy.protoc-gen-validate:protoc-gen-validate:${pgvVersion}"
+        }
+    }
+
+    generateProtoTasks {
+        all()*.plugins {
+            javapgv {
+                option "lang=java"
+            }
+            grpc {}
+        }
+    }
+}</code></pre>
+<h4 id="添加客户端ValidatingClientInterceptor"><a href="#添加客户端ValidatingClientInterceptor" class="headerlink" title="添加客户端ValidatingClientInterceptor"></a>添加客户端ValidatingClientInterceptor</h4><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">GlobalClientInterceptorConfiguration</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> GlobalClientInterceptorConfigurer <span class="token function">globalInterceptorConfigurerAdapter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ValidatorIndex index <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ReflectiveValidatorIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> registry <span class="token operator">-</span><span class="token operator">></span> registry
+            <span class="token punctuation">.</span><span class="token function">addClientInterceptors</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">LogGrpcInterceptor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">addClientInterceptors</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ValidatingClientInterceptor</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<h4 id="服务端添加ValidatingServerInterceptor"><a href="#服务端添加ValidatingServerInterceptor" class="headerlink" title="服务端添加ValidatingServerInterceptor"></a>服务端添加ValidatingServerInterceptor</h4><pre><code>@Configuration
+public class GlobalServerInterceptorConfiguration {
+
+    @Bean
+    public GlobalServerInterceptorConfigurer globalInterceptorConfigurerAdapter() {
+        ValidatorIndex index = new ReflectiveValidatorIndex();
+        return registry -&gt; registry.addServerInterceptors(new ValidatingServerInterceptor(index));
+    }
+
+}</code></pre><h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p>浏览器打开idea本地<a href="http://localhost:8888/playground" target="_blank" rel="noopener">http://localhost:8888/playground</a><br><br>浏览器打开docker本地<a href="http://localhost:8800/playground" target="_blank" rel="noopener">http://localhost:8800/playground</a></p>
+<pre><code>mutation {
+  addAuthor(request: { name: "" }) {
+    id
+    name
+  }
+}</code></pre><p>因为名字验证规则为长度5~10，这里name值为空，执行返回结果</p>
+<pre><code>{
+  "errors": [
+    {
+      "message": "INVALID_ARGUMENT: .sample.author.AddAuthorRequest.name: length must be 5 but got: 0 - Got \"\""
+    }
+  ],
+  "extensions": {},
+  "data": {
+    "addAuthor": null
+  }
+}</code></pre><p>生效，啦啦啦！</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>介绍graphql与gprc集成的一些问题，以及如何优化做到高效舒适的编写代码。</p>
+<p>本文代码仓库地址:<a href="https://github.com/silencecorner/graphql-grpc-exmaple" target="_blank" rel="noopener">https://github.com/silencecorner/graphql-grpc-exmaple</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -530,7 +776,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://silencecorner.github.io/2019/11/04/docker-mutilpstage-build/">http://silencecorner.github.io/2019/11/04/docker-mutilpstage-build/</a>
+                    <a href="http://blog.silencecorner.cn/2019/08/18/graphql-yu-grpc-ji-cheng/">http://blog.silencecorner.cn/2019/08/18/graphql-yu-grpc-ji-cheng/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -568,12 +814,12 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/CI-CD/">
-                                    <span class="chip bg-color">CI/CD</span>
+                                <a href="/tags/graphql/">
+                                    <span class="chip bg-color">graphql</span>
                                 </a>
                             
-                                <a href="/tags/运维/">
-                                    <span class="chip bg-color">运维</span>
+                                <a href="/tags/grpc/">
+                                    <span class="chip bg-color">grpc</span>
                                 </a>
                             
                         </div>
@@ -744,7 +990,7 @@
         repo: 'silencecorner.github.io',
         owner: 'silencecorner',
         admin: "silencecorner",
-        id: '2019-11-04T17-23-04',
+        id: '2019-08-18T01-39-23',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -768,83 +1014,29 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
-            <div class="card">
-                <a href="/2019/11/04/docker-mutilpstage-build/">
-                    <div class="card-image">
-                        
-                        <img src="/gallery/thumbnails/multi-stage.jpg" class="responsive-img" alt="docker muti-stage build">
-                        
-                        <span class="card-title">docker muti-stage build</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-11-04
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/运维/" class="post-category">
-                                    运维
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/CI-CD/">
-                        <span class="chip bg-color">CI/CD</span>
-                    </a>
-                    
-                    <a href="/tags/运维/">
-                        <span class="chip bg-color">运维</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
         <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/10/24/grpc-yu-graphql-zui-jia-shi-jian/">
+                <a href="/2019/08/19/lazyinitializationexception/">
                     <div class="card-image">
                         
-                        <img src="/gallery/thumbnails/graphql_grpc.png" class="responsive-img" alt="grpc与graphql最佳实践">
+                        <img src="/gallery/thumbnails/unitOfWork.png" class="responsive-img" alt="LazyInitializationException">
                         
-                        <span class="card-title">grpc与graphql最佳实践</span>
+                        <span class="card-title">LazyInitializationException</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
                             
-本文分为两部分，一部分翻译自effective-grpc，另一部分来自于集成grpc graphql实践。文章内容都是经过实践，请放心食用！
+问题使用reflectasm的MethodAccess调用get方法出错，报错org.hibernate.LazyInitializationException: could not initialize proxy [com.bd.po
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-10-24
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-08-19
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -860,12 +1052,64 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/grpc/">
-                        <span class="chip bg-color">grpc</span>
+                    <a href="/tags/issue/">
+                        <span class="chip bg-color">issue</span>
                     </a>
                     
-                    <a href="/tags/graphql/">
-                        <span class="chip bg-color">graphql</span>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/08/17/nginx-bu-shu-jing-tai-vue-xiang-mu-shi-de-zhu-yi-shi-xiang/">
+                    <div class="card-image">
+                        
+                        <img src="/gallery/thumbnails/vue-nginx.png" class="responsive-img" alt="nginx部署静态vue项目时的注意事项">
+                        
+                        <span class="card-title">nginx部署静态vue项目时的注意事项</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            nginx部署静态vue项目时应注意publicPath配置
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-08-17
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/前端/" class="post-category">
+                                    前端
+                                </a>
+                            
+                            <a href="/categories/前端/运维/" class="post-category">
+                                    运维
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/vue/">
+                        <span class="chip bg-color">vue</span>
+                    </a>
+                    
+                    <a href="/tags/nginx/">
+                        <span class="chip bg-color">nginx</span>
                     </a>
                     
                 </div>
