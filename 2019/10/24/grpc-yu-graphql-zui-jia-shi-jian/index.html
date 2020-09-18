@@ -486,7 +486,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <img src="/gallery/thumbnails/graphql_grpc.png" title="graphql_grpc">
-<p>本文分为两部分，一部分翻译自<a href="https://john-millikin.com/effective-grpc" target="_blank" rel="noopener">effective-grpc</a>，另一部分来自于集成grpc graphql实践。文章内容都是经过实践，请放心食用！</p>
+<p>本文分为两部分，一部分翻译自<a href="https://john-millikin.com/effective-grpc" target="_blank" rel="noopener">effective-grpc</a>，另一部分来自于集成grpc graphql实践。</p>
 <a id="more"></a>
 <h1 id="Effective-grpc"><a href="#Effective-grpc" class="headerlink" title="Effective grpc"></a>Effective grpc</h1><h2 id="grpc"><a href="#grpc" class="headerlink" title="grpc"></a>grpc</h2><h3 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h3><p>使用<code>google.protobuf.Status</code>消息将错误报告给客户端-gRPC库应针对您的语言对这种类型进行特殊区分（例如，grpc-go具有<a href="https://godoc.org/google.golang.org/grpc/status" target="_blank" rel="noopener">google.golang.org/grpc/status</a>)。该消息可以包含任意子消息，因此服务器可以向所有客户端提供基本错误消息，并向可以处理这些错误的客户端提供结构化错误。 有关每个错误代码的含义的详细信息，请参考<a href="https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto" target="_blank" rel="noopener">google/rpc/code.proto</a>；有关如何编写错误消息的详细建议，请参考<a href="https://cloud.google.com/apis/design/errors" target="_blank" rel="noopener">Google Cloud Error Model</a>。</p>
 <blockquote>
